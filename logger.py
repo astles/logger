@@ -155,5 +155,4 @@ with column:
     # for more information on this chart, visit: https://plotly.com/python/pie-charts/
     fig2.update_traces(textposition='inside', textinfo='percent+label')
 
-    # after creating the chart, we display it on the app's screen using this command
-    pie_col.write(fig)
+   
