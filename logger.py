@@ -2,7 +2,9 @@
 # 1 --- first and foremost, we import the necessary libraries
 import pandas as pd
 import streamlit as st
-import plotly.express as px
+# import plotly.express as px
+import plotly.figure_factory as ff
+
 
 #######################################
 
@@ -102,11 +104,11 @@ with stats_container:
     #     visitors_b = df[ab[0]].value_counts()[treatment]
 
 with other_container:
-    # fig2 = px.pie(data_frame=df, names=' type', values='  time(sec)', color=None,
+    # fig2 = ff.pie(data_frame=df, names=' type', values='  time(sec)', color=None,
     #               )
     # fig2
 
-    fig = px.scatter(data_frame=df, x='  time(sec)', y=' reading 2', color=
+    fig = ff.scatter(data_frame=df, x='  time(sec)', y=' reading 2', color=
         ' type', symbol=None, size=None, trendline=None, marginal_x='histogram',
         marginal_y='histogram', facet_row=None, facet_col=None, render_mode=
         'auto', )
