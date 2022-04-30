@@ -56,6 +56,7 @@ header_container = st.container()
 stats_container = st.container()
 pie_container = st.container()
 other_container = st.container()
+column = st.container()
 #######################################
 
 
@@ -69,7 +70,7 @@ with header_container:
 	# different levels of text you can include in your app
 	st.title("LogView")
 	st.header("What the printer is doing!")
-	st.subheader("the")
+	st.subheader("")
 	st.write("Just load your file")
 
 
@@ -105,13 +106,54 @@ with stats_container:
     #     visitors_b = df[ab[0]].value_counts()[treatment]
 
 with other_container:
-    # fig2 = px.pie(data_frame=df, names=' type', values='  time(sec)', color=None,
-    #               )
-    # fig2
 
+    st.header("CNF Reading 2")
     fig = px.scatter(data_frame=df, x='  time(sec)', y=' reading 2', color=
         ' type', symbol=None, size=None, trendline=None, marginal_x='histogram',
         marginal_y='histogram', facet_row=None, facet_col=None, render_mode=
         'auto', )
     fig.update()
     fig
+
+
+with column:
+
+    # 7 --- creating columns inside a container
+    #		(you can create more than 2)
+    bar_col, pie_col = st.columns(2)
+
+    # preparing data to display in a bar chart
+    ttime = df['  time(sec)'].value_counts()
+
+    # don't forget to add titles to your plots
+    bar_col.subheader('Total Print Time')
+    bar_col.metric("total time", value=266)
+
+
+    #pie_col.print ttime
+    st.header("Time Ratios")
+
+   # PLOT TITLE
+    pie_col.subheader('Breakdown')
+
+    # pie chart
+    fig2 = px.pie(data_frame=df, names=' type', values='  time(sec)', color=None,
+                  )
+    fig2
+    pie_col.write(fig2)
+
+
+
+    # TODO: change the values of the update_layout function and see the effect
+    fig2.update_layout(showlegend=False,
+                      width=400,
+                      height=400,
+                      margin=dict(l=1, r=1, b=1, t=1),
+                      font=dict(color='#383635', size=15))
+
+    # this function adds labels to the pie chart
+    # for more information on this chart, visit: https://plotly.com/python/pie-charts/
+    fig2.update_traces(textposition='inside', textinfo='percent+label')
+
+    # after creating the chart, we display it on the app's screen using this command
+    pie_col.write(fig)
