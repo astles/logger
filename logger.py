@@ -2,8 +2,9 @@
 # 1 --- first and foremost, we import the necessary libraries
 import pandas as pd
 import streamlit as st
-# import plotly.express as px
+import plotly.express as px
 import plotly.figure_factory as ff
+import numpy as np
 
 
 #######################################
