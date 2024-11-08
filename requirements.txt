@@ -4,3 +4,4 @@ pandas>=1.2.5      # Version 1.2.5 or later works well with Streamlit and Plotly
 scipy==1.6.2
 click>=8           # Version 8 or later is compatible with Streamlit
 plotly>=5.0.0      # Plotly 5.x is recommended, which includes Plotly Express
+openpyxl==3.0.6
