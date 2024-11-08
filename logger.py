@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # Set up Streamlit page configuration
-st.set_page_config(page_title="Open POs by Vendor and PO", layout="wide")
+st.set_page_config(page_title="Open Purchase Orders Dashboard", layout="wide")
 
 # Title
 st.title("Open Purchase Orders Dashboard")
@@ -24,21 +24,31 @@ if uploaded_file:
     # Filter for open POs based on 'Closed_Code' and 'Open_Flag'
     open_pos = df[(df['Closed_Code'] != 'CLOSED') & (df['Open_Flag'] == 'Y')]
 
-    # Vendor selection
-    vendors = ['All Vendors'] + sorted(open_pos['Vendor_Name'].unique().tolist())
-    selected_vendor = st.selectbox("Select a Vendor", vendors)
+    # Display total sum of all open orders at the top
+    total_open_amount = open_pos['Total_Pending_Amount'].sum()
+    st.subheader("Total Sum of All Open Orders")
+    st.write(f"**${total_open_amount:,.2f}**")
 
-    # Filter data based on selected vendor
+    # Set up columns for side-by-side filters
+    col1, col2 = st.columns(2)
+
+    # Vendor selection
+    with col1:
+        vendors = ['All Vendors'] + sorted(open_pos['Vendor_Name'].unique().tolist())
+        selected_vendor = st.selectbox("Select a Vendor", vendors)
+
+    # PO selection
+    with col2:
+        vendor_data = open_pos[open_pos['Vendor_Name'] == selected_vendor] if selected_vendor != 'All Vendors' else open_pos
+        po_numbers = ['All POs'] + sorted(vendor_data['PO_Number'].unique().tolist())
+        selected_po = st.selectbox("Select a PO Number", po_numbers)
+
+    # Filter data based on selected vendor and PO number
     if selected_vendor != 'All Vendors':
         vendor_data = open_pos[open_pos['Vendor_Name'] == selected_vendor]
     else:
         vendor_data = open_pos
 
-    # PO selection (filtered by selected vendor if applicable)
-    po_numbers = ['All POs'] + sorted(vendor_data['PO_Number'].unique().tolist())
-    selected_po = st.selectbox("Select a PO Number", po_numbers)
-
-    # Further filter data based on selected PO number
     if selected_po != 'All POs':
         po_data = vendor_data[vendor_data['PO_Number'] == selected_po]
     else:
@@ -82,8 +92,3 @@ if uploaded_file:
                    fill_color='white',
                    align='center'))
     ]))
-
-    # Display total sum of all open orders
-    total_open_amount = po_data['Total_Pending_Amount'].sum()
-    st.subheader("Total Sum of All Open Orders")
-    st.write(f"**${total_open_amount:,.2f}**")
