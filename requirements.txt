@@ -1,6 +1,6 @@
-streamlit==1.6
+streamlit>=1.10.0  # Update Streamlit to ensure better compatibility with recent Plotly and pandas
 numpy==1.19.5
-pandas==1.2.5
+pandas>=1.2.5      # Version 1.2.5 or later works well with Streamlit and Plotly
 scipy==1.6.2
-click==8
-plotly_express==0.4.0
+click>=8           # Version 8 or later is compatible with Streamlit
+plotly>=5.0.0      # Plotly 5.x is recommended, which includes Plotly Express
